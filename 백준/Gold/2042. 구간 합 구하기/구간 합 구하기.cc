@@ -6,18 +6,19 @@ using namespace std;
 ll arr[1000001]; //N
 ll tree[4000001]; //4N
 
-ll myTree(ll node, ll left, ll right)
+void myTree(ll node, ll left, ll right)
 {
 	if (left == right) // 마지막 말단노드에 값 배정
 	{
-		return tree[node] = arr[left];
+		tree[node] = arr[left];
+		return;
 	}
 	ll mid = left + (right - left) / 2; //가운데 인덱스 안전하게 구하기
 
-	// 자식 두개의 합을 현재 노드에 넣도록 재귀
-	return tree[node] = myTree(node * 2, left, mid) + myTree(node * 2 + 1, mid + 1, right);
+	myTree(node * 2, left, mid);			//왼쪽
+	myTree(node * 2 + 1, mid + 1, right);	//오른쪽
+	tree[node] = tree[node * 2] + tree[node * 2 + 1]; //각 노드 값 채우기
 }
-//반환형이 왜 ll???  배열에 저장 + 그 값 리턴까지
 
 void update(ll node, ll left, ll right, ll newIdx, ll newVal)
 {
@@ -60,6 +61,10 @@ ll prefixSum(ll node, ll left, ll right, ll startIdx, ll endIdx)
 
 int main()
 {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
 	ll N, M, K;
 	cin >> N >> M >> K;
 
@@ -70,7 +75,7 @@ int main()
 	}
 
 	//다 입력받았으니 일단 트리 생성
-	myTree(1, 0, N-1); //tree에 1번 인덱스부터 배정. 이유는 왼쪽을 *2, 오른쪽을 *2+1하기 위해
+	myTree(1, 0, N - 1); //tree에 1번 인덱스부터 배정. 이유는 왼쪽을 *2, 오른쪽을 *2+1하기 위해
 
 	for (ll i = 0; i < M + K; i++)
 	{
@@ -80,7 +85,7 @@ int main()
 		//a==1일때 업데이트 발생
 		if (a == 1)
 		{
-			update(1, 0, N-1, b-1, c);
+			update(1, 0, N - 1, b - 1, c);
 		}
 
 		//a==2일 때 구간합 계산

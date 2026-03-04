@@ -33,7 +33,7 @@ int main()
 		int num = sorted[i]; //정렬된 순서로 진행
 
 		//만약 dict에서 이 숫자가 아직 안적혀있다면
-		if (dict.find(num) == dict.end())
+		if (dict.count(num) == 0)
 		{
 			dict[num] = rank; //등수 적어주기
 			rank++; //다음 등수로

@@ -17,7 +17,7 @@ int setUnion(int a, int b)
 	int t2 = find(b);
 
 	if (t1 == t2)
-		return cnt;
+		return 1;
 
 	parent[t2] = t1;
 	return 0;
@@ -28,6 +28,8 @@ int main()
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
+
+	int answer = 0;
 
 	int n, m;
 	cin >> n >> m;
@@ -41,16 +43,13 @@ int main()
 	for (int i = 0; i < m; i++)
 	{
 		cin >> a >> b;
-		cnt++;
-		int cycle = setUnion(a, b);
-		if (cycle > 0)
+		if (setUnion(a, b) > 0)
 		{
-			cout << cycle;
-			return 0;
+			answer = i + 1;
+			break;
 		}
 	}
-
-	cout << 0;
+	cout << answer;
 
 	return 0;
 }

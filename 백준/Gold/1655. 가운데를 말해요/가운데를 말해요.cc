@@ -1,26 +1,42 @@
 #include <iostream>
-#include <queue>
 using namespace std;
 
-priority_queue<int, vector<int>, greater<int>> asc;
-priority_queue<int, vector<int>> desc;
+int tree[80'005];
 
-void addNumber(int num)
+void update(int node, int left, int right, int idx)
 {
-	desc.push(num);
-	asc.push(desc.top());
-	desc.pop();
+	tree[node]++;
 
-	if (desc.size() < asc.size())
+	if (left == right)
 	{
-		desc.push(asc.top());
-		asc.pop();
+		return;
 	}
+
+	int mid = left + (right - left) / 2;
+
+	if (left <= idx && idx <= mid)
+		update(node * 2, left, mid, idx);
+	else
+		update(node * 2 + 1, mid + 1, right, idx);
 }
 
-int getMedian()
+int query(int node, int left, int right, int kth)
 {
-	return desc.top();
+	int mid = left + (right - left) / 2;
+
+	if (left == right)
+	{
+		return left;
+	}
+
+	if (kth > tree[node * 2])
+	{
+		return query(node * 2 + 1, mid + 1, right, kth - tree[node * 2]);
+	}
+	else
+	{
+		return query(node * 2, left, mid, kth);
+	}
 }
 
 int main()
@@ -29,18 +45,17 @@ int main()
 	cin.tie(NULL);
 	cout.tie(NULL);
 
+	int N;
+	cin >> N;
 
-	int n;
-	cin >> n;
-	
 	int temp;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < N; i++)
 	{
 		cin >> temp;
-		addNumber(temp);
-		cout << getMedian() << '\n';
+		update(1, -10000, 10000, temp);
+		cout << query(1, -10000, 10000, i / 2 + 1) << '\n';
 	}
-
 
 	return 0;
 }
+

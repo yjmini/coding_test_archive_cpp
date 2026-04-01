@@ -8,11 +8,8 @@ int main()
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	int n;
-	cin >> n;
-
-	int m;
-	cin >> m;
+	int n, m;
+	cin >> n >> m;
 
 	vector<vector<int>> dist(n, vector<int>(n, 21e8));
 

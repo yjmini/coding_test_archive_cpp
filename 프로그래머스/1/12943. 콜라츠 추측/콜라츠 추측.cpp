@@ -5,23 +5,19 @@ using namespace std;
 
 int solution(int num) {
     int answer = 0;
+    long long number = num;
     
     for (int i = 0; i < 500; i++) {
-        if (num == 1) {
-            answer = i;
-            break;
+        if (number == 1)
+            return i;
+        
+        if (number % 2 == 0) {
+            number /= 2;
         }
-        else if (i == 499) {
-            answer = -1;
-            break;
-        }
-        else if (num % 2 == 0) {
-            num /= 2;
-        }
-        else if (num % 2 == 1) {
-            num = num * 3 + 1;
+        else {
+            number = number * 3 + 1;
         }
     }
     
-    return answer;
+    return -1;
 }
